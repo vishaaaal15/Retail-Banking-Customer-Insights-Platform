@@ -1,113 +1,28 @@
-# 👥 Retail Banking Customer Insights Platform
+# Retail Banking Customer Insights
 
-**Author:** Vishal Singh | [LinkedIn](https://linkedin.com/in/vishal-singhdataanalyst) | [GitHub](https://github.com/vishaaaal15)  
-**Stack:** SQL · Python · Power BI  
-**Dataset:** 100,000+ retail banking customers | ₹500M+ deposits | ₹300M+ lending  
-**Domain:** Customer Analytics · Retail Banking Intelligence · Acquisition Analytics
+**Tools:** SQL · Python (data generation)
+**Dataset:** 100,000+ simulated retail banking customer records
 
----
+## Overview
 
-## 📌 Project Overview
+A SQL-focused exploration of a simulated retail banking customer base, looking at deposit and loan portfolio composition, customer segmentation, regional distribution, and digital banking adoption.
 
-A comprehensive retail banking customer intelligence platform that analyses 100K+ customer profiles to identify acquisition segments, product adoption trends, churn risk, and cross-sell opportunities. Delivers actionable insights for customer relationship management and digital acquisition strategy.
+## What I did
 
----
+- Generated a synthetic dataset of 100,000+ retail banking customers in Python, covering demographics, income, customer segment, deposit/loan balances, product holdings, and digital banking usage.
+- Wrote 10 SQL queries against the dataset covering: portfolio-level summary (total deposits, loans, revenue), active vs. inactive customer mix, customer segment distribution, deposit and loan portfolio by segment, product adoption, regional deposit/loan distribution, and mobile/internet banking adoption.
+- Used aggregate functions, GROUP BY, and window functions (e.g., percentage-of-total via `COUNT(*) OVER()`) to build the summary views.
 
-## 📁 Repository Structure
+## Repo contents
 
-```
-Retail-Banking-Customer-Insights-Platform/
-│
-├── data/
-│   └── retail_banking_customers.csv     # 100K+ customer records
-│
-├── sql_queries/
-│   ├── 01_customer_overview.sql         # Portfolio-level customer summary
-│   ├── 02_segment_analysis.sql          # Retail/SME/Premium segmentation
-│   ├── 03_product_adoption.sql          # Which products each segment uses
-│   ├── 04_cross_sell_opportunities.sql  # Customers with <2 products
-│   ├── 05_churn_indicators.sql          # Low balance + low engagement flags
-│   └── 06_deposit_lending_mix.sql      # Deposit vs lending exposure by segment
-│
-├── python_analysis/
-│   ├── customer_segmentation.py         # RFM + K-Means clustering
-│   ├── churn_prediction.py             # Churn risk scoring model
-│   └── product_propensity.py           # Next-best-product recommendation
-│
-├── dashboards/
-│   └── Retail_Customer_Insights.pbix   # Power BI executive dashboard
-│
-└── outputs/
-    ├── customer_segment_kpis.csv        # KPIs by customer segment
-    ├── churn_risk_accounts.csv          # High-risk churn accounts
-    └── cross_sell_targets.csv          # Cross-sell opportunity list
-```
+- `/SQL` — `Retail_banking_customer_data_Queries.sql`: table schema and the 10 analysis queries
+- `/Python` — `retail_banking_customer_data_generation.ipynb`: notebook that generates the synthetic dataset
+- `/Excel` — `retail_banking_customer_dataset.csv`: the generated dataset
 
----
+## Data note
 
-## 📊 Key Findings
+This dataset is fully synthetic, generated in Python to resemble realistic retail banking customer attributes. No real customer or institutional data is used.
 
-| Metric | Value | Insight |
-|--------|-------|---------|
-| Total Customers Analysed | 100,000+ | — |
-| Total Deposit Book | ₹500M+ | — |
-| Total Lending Book | ₹300M+ | — |
-| Avg Products per Customer | 1.8 | 🔴 Cross-sell opportunity |
-| Premium Segment Share | 10% customers | 38% of revenue |
-| Churn Risk (High) Accounts | 12,400 | 🔴 URGENT |
-| Top Cross-Sell Product | Fixed Deposits | 34K eligible customers |
+## Next steps
 
----
-
-## 🔍 SQL Highlights
-
-```sql
--- Cross-sell opportunity identification
-SELECT
-    segment,
-    COUNT(customer_id)                  AS eligible_customers,
-    SUM(total_deposits)                 AS deposit_value,
-    AVG(credit_score)                   AS avg_credit_score
-FROM customer_profiles
-WHERE product_count < 2
-  AND years_with_bank >= 1
-  AND credit_score >= 650
-GROUP BY segment
-ORDER BY eligible_customers DESC;
-
--- Customer Lifetime Value by segment
-SELECT
-    segment,
-    ROUND(AVG(total_deposits + total_lending * 0.03), 0) AS estimated_clv,
-    COUNT(*) AS customer_count
-FROM customer_profiles
-GROUP BY segment
-ORDER BY estimated_clv DESC;
-```
-
----
-
-## 📈 Dashboard Features
-
-**Power BI — Customer Insights Executive Dashboard**
-- Customer base breakdown by segment and geography
-- Deposit and lending mix (stacked bar)
-- Product adoption heatmap (segment × product)
-- Churn risk distribution (gauge + trend)
-- Cross-sell opportunity funnel
-- Top 10 branches by customer value
-
----
-
-## 🛠️ How to Run
-
-```bash
-git clone https://github.com/vishaaaal15/Retail-Banking-Customer-Insights-Platform
-pip install pandas numpy scikit-learn matplotlib seaborn
-python python_analysis/customer_segmentation.py
-```
-
----
-
-## 🏷️ Topics
-`customer-analytics` `retail-banking` `sql` `python` `power-bi` `customer-segmentation` `churn-prediction` `cross-sell` `banking-analytics` `clv` `acquisition-analytics`
+Planned additions: a Power BI dashboard on top of these queries, and a customer segmentation or churn-risk model in Python to extend this from descriptive to predictive analysis.
